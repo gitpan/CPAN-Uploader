@@ -9,7 +9,7 @@ WriteMakefile(
   NAME     => 'CPAN::Uploader',
   AUTHOR   => 'Ricardo\ SIGNES\ \<rjbs\@cpan\.org\>',
   ABSTRACT => 'upload things to the CPAN',
-  VERSION  => '0.001',
+  VERSION  => '0.002',
   (eval { ExtUtils::MakeMaker->VERSION(6.21) } ? (LICENSE => 'perl') : ()),
   PREREQ_PM    => {
     "LWP::UserAgent" => '0',

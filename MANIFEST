@@ -1,7 +1,9 @@
+Changes
 LICENSE
 MANIFEST
 META.yml
 Makefile.PL
 README
+bin/cpan-upload
 lib/CPAN/Uploader.pm
 t/00-load.t

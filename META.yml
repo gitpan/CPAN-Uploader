@@ -10,4 +10,4 @@ requires:
   HTTP::Request::Common: 0
   HTTP::Status: 0
   LWP::UserAgent: 0
-version: 0.001
+version: 0.002
