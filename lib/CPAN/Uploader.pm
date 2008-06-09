@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package CPAN::Uploader;
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 
 # ABSTRACT: upload things to the CPAN
 
@@ -77,7 +77,7 @@ sub upload_file {
       $response->as_string,
       "----- RESPONSE END -------"
     );
-    $self->log("PAUSE add message sent ok [", $response->code, "]");
+    $self->log("PAUSE add message sent ok [" . $response->code . "]");
   }
 }
 
@@ -113,7 +113,7 @@ CPAN::Uploader - upload things to the CPAN
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 WARNING
 
