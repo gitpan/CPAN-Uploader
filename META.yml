@@ -2,7 +2,7 @@
 abstract: upload things to the CPAN
 author: 
   - Ricardo SIGNES <rjbs@cpan.org>
-generated_by: Dist::Zilla::Plugin::MetaYaml version 0.004
+generated_by: Dist::Zilla::Plugin::MetaYaml version 1.003
 license: perl
 name: CPAN-Uploader
 requires: 
@@ -10,4 +10,5 @@ requires:
   HTTP::Request::Common: 0
   HTTP::Status: 0
   LWP::UserAgent: 0
-version: 0.003
+  URI: 0
+version: 0.004

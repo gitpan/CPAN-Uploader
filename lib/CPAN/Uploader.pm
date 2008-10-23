@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package CPAN::Uploader;
-our $VERSION = '0.003';
+our $VERSION = '0.004';
 
 # ABSTRACT: upload things to the CPAN
 
@@ -113,7 +113,7 @@ CPAN::Uploader - upload things to the CPAN
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 WARNING
 
@@ -126,14 +126,6 @@ This code is mostly derived from C<cpan-upload-http> by Brad Fitzpatrick, which
 in turn was based on C<cpan-upload> by Neil Bowers.  I (I<rjbs>) didn't want to
 have to use a C<system> call to run either of those, so I refactored the code
 into this module.
-
-=cut 
-
-=cut 
-
-=cut 
-
-=cut 
 
 =head1 METHODS
 
@@ -186,5 +178,6 @@ This software is copyright (c) 2008 by Ricardo SIGNES.
 This is free software; you can redistribute it and/or modify it under
 the same terms as perl itself.
 
+=cut 
 
 
