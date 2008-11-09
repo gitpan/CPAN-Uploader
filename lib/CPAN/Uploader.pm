@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package CPAN::Uploader;
-our $VERSION = '0.004';
+our $VERSION = '0.005';
 
 # ABSTRACT: upload things to the CPAN
 
@@ -104,50 +104,35 @@ sub debug {
 1;
 
 __END__
-
-=pod
-
 =head1 NAME
 
 CPAN::Uploader - upload things to the CPAN
 
 =head1 VERSION
 
-version 0.004
-
-=head1 WARNING
-
-    This is really, really not well tested or used yet.  Give it a few weeks, at
-    least.  -- rjbs, 2008-06-06
-
-=head1 ORIGIN
-
-This code is mostly derived from C<cpan-upload-http> by Brad Fitzpatrick, which
-in turn was based on C<cpan-upload> by Neil Bowers.  I (I<rjbs>) didn't want to
-have to use a C<system> call to run either of those, so I refactored the code
-into this module.
+version 0.005
 
 =head1 METHODS
 
 =head2 upload_file
 
-    CPAN::Uploader->upload_file($file);
+  CPAN::Uploader->upload_file($file);
 
-    $uploader->upload_file($file, \%arg);
+  $uploader->upload_file($file, \%arg);
 
 Valid arguments are:
 
-    user     - (required) your CPAN / PAUSE id
-    password - (required) your CPAN / PAUSE password
-    subdir   - the directory (under your home directory) to upload to
-    debug    - if set to true, spew lots more debugging output
+  user     - (required) your CPAN / PAUSE id
+  password - (required) your CPAN / PAUSE password
+  subdir   - the directory (under your home directory) to upload to
+  debug    - if set to true, spew lots more debugging output
 
 This method attempts to actually upload the named file to the CPAN.  It will
 raise an exception on error.
 
 =head2 new
 
-    my $uploader = CPAN::Uploader->new(\%arg);
+  my $uploader = CPAN::Uploader->new(\%arg);
 
 This method returns a new uploader.  You probably don't need to worry about
 this method.
@@ -156,14 +141,14 @@ Valid arguments are the same as those to C<upload_file>.
 
 =head2 log
 
-    $uploader->log($message);
+  $uploader->log($message);
 
 This method logs the given message by printing it to the selected output
 handle.
 
 =head2 debug
 
-    $uploader->debug($message);
+  $uploader->debug($message);
 
 This method logs the given message if the uploader is in debugging mode.
 
@@ -178,6 +163,15 @@ This software is copyright (c) 2008 by Ricardo SIGNES.
 This is free software; you can redistribute it and/or modify it under
 the same terms as perl itself.
 
-=cut 
+=head1 WARNING
 
+  This is really, really not well tested or used yet.  Give it a few weeks, at
+  least.  -- rjbs, 2008-06-06
+
+=head1 ORIGIN
+
+This code is mostly derived from C<cpan-upload-http> by Brad Fitzpatrick, which
+in turn was based on C<cpan-upload> by Neil Bowers.  I (I<rjbs>) didn't want to
+have to use a C<system> call to run either of those, so I refactored the code
+into this module.
 

@@ -11,4 +11,4 @@ requires:
   HTTP::Status: 0
   LWP::UserAgent: 0
   URI: 0
-version: 0.004
+version: 0.005
