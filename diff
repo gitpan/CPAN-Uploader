@@ -1,0 +1,45 @@
+The documentation has the use of '%arg' inverted
+(it should be used for the class calls, and not
+as a method).  I've also include in the patch
+a check in upload_file() for when it's called
+as a class call without %args (as it is doomed
+to fail without the credentials)
+---
+ lib/CPAN/Uploader.pm |   10 +++++++---
+ 1 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/lib/CPAN/Uploader.pm b/lib/CPAN/Uploader.pm
+index ecdd568..54b322c 100644
+--- a/lib/CPAN/Uploader.pm
++++ b/lib/CPAN/Uploader.pm
+@@ -17,9 +17,13 @@ my $PAUSE_ADD_URI = 'http://pause.perl.org/pause/authenquery';
+ sub upload_file {
+   my ($self, $file, $arg) = @_;
+ 
+-  Carp::confess("don't supply %arg when calling upload_file on an object")
++  Carp::confess(q{don't supply %arg when calling upload_file on an object})
+     if $arg and ref $self;
+ 
++  # class call with no args is no good
++  Carp::confess(q{need to supply %arg when calling upload_file from the class})
++    if not ( ref $self ) and not $arg;
++
+   $self = $self->new($arg) if $arg;
+ 
+   $self->log("registering upload with PAUSE web server");
+@@ -131,9 +135,9 @@ into this module.
+ 
+ =head2 upload_file
+ 
+-    CPAN::Uploader->upload_file($file);
++    CPAN::Uploader->upload_file($file, \%arg);
+ 
+-    $uploader->upload_file($file, \%arg);
++    $uploader->upload_file($file);
+ 
+ Valid arguments are:
+ 
+-- 
+1.6.0.3
+
+

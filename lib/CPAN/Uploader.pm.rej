@@ -1,0 +1,21 @@
+***************
+*** 159,167 ****
+  
+  =head2 upload_file
+  
+-     CPAN::Uploader->upload_file($file);
+  
+-     $uploader->upload_file($file, \%arg);
+  
+  Valid arguments are:
+  
+--- 163,171 ----
+  
+  =head2 upload_file
+  
++     CPAN::Uploader->upload_file($file, \%arg);
+  
++     $uploader->upload_file($file);
+  
+  Valid arguments are:
+  

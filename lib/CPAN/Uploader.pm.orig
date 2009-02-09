@@ -1,10 +1,21 @@
 use strict;
 use warnings;
 package CPAN::Uploader;
-our $VERSION = '0.006';
-
 # ABSTRACT: upload things to the CPAN
 
+=head1 WARNING
+
+  This is really, really not well tested or used yet.  Give it a few weeks, at
+  least.  -- rjbs, 2008-06-06
+
+=head1 ORIGIN
+
+This code is mostly derived from C<cpan-upload-http> by Brad Fitzpatrick, which
+in turn was based on C<cpan-upload> by Neil Bowers.  I (I<rjbs>) didn't want to
+have to use a C<system> call to run either of those, so I refactored the code
+into this module.
+
+=cut
 
 use File::Basename ();
 use HTTP::Request::Common qw(POST);
@@ -13,16 +24,29 @@ use LWP::UserAgent;
 
 my $PAUSE_ADD_URI = 'http://pause.perl.org/pause/authenquery';
 
+=method upload_file
+
+  CPAN::Uploader->upload_file($file);
+
+  $uploader->upload_file($file, \%arg);
+
+Valid arguments are:
+
+  user     - (required) your CPAN / PAUSE id
+  password - (required) your CPAN / PAUSE password
+  subdir   - the directory (under your home directory) to upload to
+  debug    - if set to true, spew lots more debugging output
+
+This method attempts to actually upload the named file to the CPAN.  It will
+raise an exception on error.
+
+=cut
 
 sub upload_file {
   my ($self, $file, $arg) = @_;
 
-  Carp::confess(q{don't supply %arg when calling upload_file on an object})
+  Carp::confess("don't supply %arg when calling upload_file on an object")
     if $arg and ref $self;
-
-  # class call with no args is no good
-  Carp::confess(q{need to supply %arg when calling upload_file from the class})
-    if not ( ref $self ) and not $arg;
 
   $self = $self->new($arg) if $arg;
 
@@ -85,6 +109,16 @@ sub upload_file {
   }
 }
 
+=method new
+
+  my $uploader = CPAN::Uploader->new(\%arg);
+
+This method returns a new uploader.  You probably don't need to worry about
+this method.
+
+Valid arguments are the same as those to C<upload_file>.
+
+=cut
 
 sub new {
   my ($class, $arg) = @_;
@@ -93,6 +127,20 @@ sub new {
   bless $arg => $class;
 }
 
+=method log
+
+  $uploader->log($message);
+
+This method logs the given message by printing it to the selected output
+handle.
+
+=method debug
+
+  $uploader->debug($message);
+
+This method logs the given message if the uploader is in debugging mode.
+
+=cut
 
 sub log {
   shift;
@@ -106,82 +154,3 @@ sub debug {
 }
 
 1;
-
-__END__
-
-=pod
-
-=head1 NAME
-
-CPAN::Uploader - upload things to the CPAN
-
-=head1 VERSION
-
-version 0.006
-
-=head1 WARNING
-
-    This is really, really not well tested or used yet.  Give it a few weeks, at
-    least.  -- rjbs, 2008-06-06
-
-=head1 ORIGIN
-
-This code is mostly derived from C<cpan-upload-http> by Brad Fitzpatrick, which
-in turn was based on C<cpan-upload> by Neil Bowers.  I (I<rjbs>) didn't want to
-have to use a C<system> call to run either of those, so I refactored the code
-into this module.
-
-=head1 METHODS
-
-=head2 upload_file
-
-    CPAN::Uploader->upload_file($file, \%arg);
-
-    $uploader->upload_file($file);
-
-Valid arguments are:
-
-    user     - (required) your CPAN / PAUSE id
-    password - (required) your CPAN / PAUSE password
-    subdir   - the directory (under your home directory) to upload to
-    debug    - if set to true, spew lots more debugging output
-
-This method attempts to actually upload the named file to the CPAN.  It will
-raise an exception on error.
-
-=head2 new
-
-    my $uploader = CPAN::Uploader->new(\%arg);
-
-This method returns a new uploader.  You probably don't need to worry about
-this method.
-
-Valid arguments are the same as those to C<upload_file>.
-
-=head2 log
-
-    $uploader->log($message);
-
-This method logs the given message by printing it to the selected output
-handle.
-
-=head2 debug
-
-    $uploader->debug($message);
-
-This method logs the given message if the uploader is in debugging mode.
-
-=head1 AUTHOR
-
-  Ricardo SIGNES <rjbs@cpan.org>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is copyright (c) 2009 by Ricardo SIGNES.
-
-This is free software; you can redistribute it and/or modify it under
-the same terms as perl itself.
-
-=cut 
-
-

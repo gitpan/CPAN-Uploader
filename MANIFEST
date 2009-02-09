@@ -5,5 +5,8 @@ META.yml
 Makefile.PL
 README
 bin/cpan-upload
+diff
 lib/CPAN/Uploader.pm
+lib/CPAN/Uploader.pm.orig
+lib/CPAN/Uploader.pm.rej
 t/00-load.t
