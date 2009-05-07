@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package CPAN::Uploader;
-our $VERSION = '0.006';
+our $VERSION = '0.091270';
 
 # ABSTRACT: upload things to the CPAN
 
@@ -14,6 +14,7 @@ use LWP::UserAgent;
 my $PAUSE_ADD_URI = 'http://pause.perl.org/pause/authenquery';
 
 
+use Data::Dumper;
 sub upload_file {
   my ($self, $file, $arg) = @_;
 
@@ -22,41 +23,57 @@ sub upload_file {
 
   # class call with no args is no good
   Carp::confess(q{need to supply %arg when calling upload_file from the class})
-    if not ( ref $self ) and not $arg;
+    if not (ref $self) and not $arg;
 
   $self = $self->new($arg) if $arg;
 
-  $self->log("registering upload with PAUSE web server");
+  if($arg->{dry_run}) {
+    $self->_log("By request, cowardly refusing to do anything at all.");
+    $self->_log(
+      "The following arguments would have been used to upload: \n"
+      . '$self: ' . Dumper($self)
+      . '$file: ' . Dumper($file)
+    ); 
+  } else {
+    $self->_upload($file);
+  }
+}
+
+sub _upload {
+  my $self = shift;
+  my $file = shift;
+
+  $self->_log("registering upload with PAUSE web server");
 
   my $agent = LWP::UserAgent->new;
   $agent->agent($self . q{/} . $self->VERSION);
 
-  $agent->proxy(http => $arg->{http_proxy}) if $arg->{http_proxy};
+  $agent->proxy(http => $self->{http_proxy}) if $self->{http_proxy};
 
   my $request = POST(
     $PAUSE_ADD_URI,
     Content_Type => 'form-data',
     Content      => {
-      HIDDENNAME                        => $arg->{user},
+      HIDDENNAME                        => $self->{user},
       CAN_MULTIPART                     => 1,
       pause99_add_uri_upload            => File::Basename::basename($file),
       SUBMIT_pause99_add_uri_httpupload => " Upload this file from my disk ",
       pause99_add_uri_uri               => "",
       pause99_add_uri_httpupload        => [ $file ],
-      ($arg->{subdir} ? (pause99_add_uri_subdirtext => $arg->{subdir}) : ()),
+      ($self->{subdir} ? (pause99_add_uri_subdirtext => $self->{subdir}) : ()),
     },
   );
 
-  $request->authorization_basic($arg->{user}, $arg->{password});
+  $request->authorization_basic($self->{user}, $self->{password});
 
-  $self->debug(
+  $self->_debug(
     "----- REQUEST BEGIN -----" .
     $request->as_string .
     "----- REQUEST END -------"
   );
 
   # Make the request to the PAUSE web server
-  $self->log("POSTing upload for $file");
+  $self->_log("POSTing upload for $file");
   my $response = $agent->request($request);
 
   # So, how'd we do?
@@ -75,15 +92,16 @@ sub upload_file {
         "\n  Message: ", $response->message, "\n";
     }
   } else {
-    $self->debug(
+    $self->_debug(
       "Looks OK!",
       "----- RESPONSE BEGIN -----",
       $response->as_string,
       "----- RESPONSE END -------"
     );
-    $self->log("PAUSE add message sent ok [" . $response->code . "]");
+    $self->_log("PAUSE add message sent ok [" . $response->code . "]");
   }
 }
+
 
 
 sub new {
@@ -93,16 +111,15 @@ sub new {
   bless $arg => $class;
 }
 
-
-sub log {
+sub _log {
   shift;
   print "$_[0]\n"
 }
 
-sub debug {
+sub _debug {
   my ($self) = @_;
   return unless $self->{debug};
-  $self->log($_[0]);
+  $self->_log($_[0]);
 }
 
 1;
@@ -117,7 +134,7 @@ CPAN::Uploader - upload things to the CPAN
 
 =head1 VERSION
 
-version 0.006
+version 0.091270
 
 =head1 WARNING
 
@@ -141,10 +158,11 @@ into this module.
 
 Valid arguments are:
 
-    user     - (required) your CPAN / PAUSE id
-    password - (required) your CPAN / PAUSE password
-    subdir   - the directory (under your home directory) to upload to
-    debug    - if set to true, spew lots more debugging output
+    user       - (required) your CPAN / PAUSE id
+    password   - (required) your CPAN / PAUSE password
+    subdir     - the directory (under your home directory) to upload to
+    http_proxy - url of the http proxy to use 
+    debug      - if set to true, spew lots more debugging output
 
 This method attempts to actually upload the named file to the CPAN.  It will
 raise an exception on error.
@@ -157,19 +175,6 @@ This method returns a new uploader.  You probably don't need to worry about
 this method.
 
 Valid arguments are the same as those to C<upload_file>.
-
-=head2 log
-
-    $uploader->log($message);
-
-This method logs the given message by printing it to the selected output
-handle.
-
-=head2 debug
-
-    $uploader->debug($message);
-
-This method logs the given message if the uploader is in debugging mode.
 
 =head1 AUTHOR
 
