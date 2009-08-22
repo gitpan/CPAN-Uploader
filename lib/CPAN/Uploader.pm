@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package CPAN::Uploader;
-our $VERSION = '0.091270';
+our $VERSION = '0.092340';
 
 # ABSTRACT: upload things to the CPAN
 
@@ -134,12 +134,12 @@ CPAN::Uploader - upload things to the CPAN
 
 =head1 VERSION
 
-version 0.091270
+version 0.092340
 
 =head1 WARNING
 
-    This is really, really not well tested or used yet.  Give it a few weeks, at
-    least.  -- rjbs, 2008-06-06
+  This is really, really not well tested or used yet.  Give it a few weeks, at
+  least.  -- rjbs, 2008-06-06
 
 =head1 ORIGIN
 
@@ -152,24 +152,24 @@ into this module.
 
 =head2 upload_file
 
-    CPAN::Uploader->upload_file($file, \%arg);
+  CPAN::Uploader->upload_file($file, \%arg);
 
-    $uploader->upload_file($file);
+  $uploader->upload_file($file);
 
 Valid arguments are:
 
-    user       - (required) your CPAN / PAUSE id
-    password   - (required) your CPAN / PAUSE password
-    subdir     - the directory (under your home directory) to upload to
-    http_proxy - url of the http proxy to use 
-    debug      - if set to true, spew lots more debugging output
+  user       - (required) your CPAN / PAUSE id
+  password   - (required) your CPAN / PAUSE password
+  subdir     - the directory (under your home directory) to upload to
+  http_proxy - url of the http proxy to use 
+  debug      - if set to true, spew lots more debugging output
 
 This method attempts to actually upload the named file to the CPAN.  It will
 raise an exception on error.
 
 =head2 new
 
-    my $uploader = CPAN::Uploader->new(\%arg);
+  my $uploader = CPAN::Uploader->new(\%arg);
 
 This method returns a new uploader.  You probably don't need to worry about
 this method.
@@ -185,7 +185,7 @@ Valid arguments are the same as those to C<upload_file>.
 This software is copyright (c) 2009 by Ricardo SIGNES.
 
 This is free software; you can redistribute it and/or modify it under
-the same terms as perl itself.
+the same terms as the Perl 5 programming language system itself.
 
 =cut 
 

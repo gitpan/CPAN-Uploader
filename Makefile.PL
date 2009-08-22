@@ -8,10 +8,10 @@ WriteMakefile(
   DISTNAME  => 'CPAN-Uploader',
   NAME      => 'CPAN::Uploader',
   AUTHOR    => 'Ricardo\ SIGNES\ \<rjbs\@cpan\.org\>',
-  ABSTRACT  => 'upload things to the CPAN',
-  VERSION   => '0.091270',
+  ABSTRACT  => 'upload\ things\ to\ the\ CPAN',
+  VERSION   => '0.092340',
   EXE_FILES => [ qw(bin/cpan-upload) ],
-  (eval { ExtUtils::MakeMaker->VERSION(6.21) } ? (LICENSE => 'perl') : ()),
+  (eval { ExtUtils::MakeMaker->VERSION(6.31) } ? (LICENSE => 'perl') : ()),
   PREREQ_PM    => {
     "LWP::UserAgent" => '0',
     "URI" => '0',

@@ -1,9 +1,11 @@
 Changes
 LICENSE
 MANIFEST
-META.yml
+META.json
 Makefile.PL
 README
 bin/cpan-upload
 lib/CPAN/Uploader.pm
 t/00-load.t
+t/release-pod-coverage.t
+t/release-pod-syntax.t
