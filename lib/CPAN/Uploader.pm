@@ -1,7 +1,8 @@
 use strict;
 use warnings;
 package CPAN::Uploader;
-our $VERSION = '0.092340';
+our $VERSION = '0.093330';
+
 
 # ABSTRACT: upload things to the CPAN
 
@@ -125,7 +126,6 @@ sub _debug {
 1;
 
 __END__
-
 =pod
 
 =head1 NAME
@@ -134,19 +134,7 @@ CPAN::Uploader - upload things to the CPAN
 
 =head1 VERSION
 
-version 0.092340
-
-=head1 WARNING
-
-  This is really, really not well tested or used yet.  Give it a few weeks, at
-  least.  -- rjbs, 2008-06-06
-
-=head1 ORIGIN
-
-This code is mostly derived from C<cpan-upload-http> by Brad Fitzpatrick, which
-in turn was based on C<cpan-upload> by Neil Bowers.  I (I<rjbs>) didn't want to
-have to use a C<system> call to run either of those, so I refactored the code
-into this module.
+version 0.093330
 
 =head1 METHODS
 
@@ -176,6 +164,18 @@ this method.
 
 Valid arguments are the same as those to C<upload_file>.
 
+=head1 WARNING
+
+  This is really, really not well tested or used yet.  Give it a few weeks, at
+  least.  -- rjbs, 2008-06-06
+
+=head1 ORIGIN
+
+This code is mostly derived from C<cpan-upload-http> by Brad Fitzpatrick, which
+in turn was based on C<cpan-upload> by Neil Bowers.  I (I<rjbs>) didn't want to
+have to use a C<system> call to run either of those, so I refactored the code
+into this module.
+
 =head1 AUTHOR
 
   Ricardo SIGNES <rjbs@cpan.org>
@@ -187,6 +187,5 @@ This software is copyright (c) 2009 by Ricardo SIGNES.
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
-=cut 
-
+=cut
 

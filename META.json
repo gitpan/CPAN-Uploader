@@ -1,26 +1,28 @@
 {
    "resources" : {
-      "repository" : "http://github.com/rjbs/cpan-uploader/tree"
+      "repository" : "http://github.com/rjbs/cpan-uploader"
    },
    "meta-spec" : {
       "version" : 1.4,
       "url" : "http://module-build.sourceforge.net/META-spec-v1.4.html"
    },
-   "generated_by" : "Dist::Zilla::Plugin::MetaJSON version 1.092310",
-   "version" : "0.092340",
+   "generated_by" : "Dist::Zilla version 1.093290",
+   "version" : "0.093330",
    "name" : "CPAN-Uploader",
    "author" : [
       "Ricardo SIGNES <rjbs@cpan.org>"
    ],
    "license" : "perl",
    "requires" : {
-      "LWP::UserAgent" : "0",
       "URI" : "0",
       "Data::Dumper" : "0",
-      "Getopt::Long::Descriptive" : "0",
-      "File::Basename" : "0",
       "HTTP::Status" : "0",
-      "HTTP::Request::Common" : "0"
+      "HTTP::Request::Common" : "0",
+      "LWP::UserAgent" : "0",
+      "File::Basename" : "0",
+      "Getopt::Long::Descriptive" : "0",
+      "Term::ReadKey" : "0"
    },
    "abstract" : "upload things to the CPAN"
 }
+
