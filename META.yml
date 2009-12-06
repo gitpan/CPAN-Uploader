@@ -2,7 +2,7 @@
 abstract: 'upload things to the CPAN'
 author:
   - 'Ricardo SIGNES <rjbs@cpan.org>'
-generated_by: 'Dist::Zilla version 1.093290'
+generated_by: 'Dist::Zilla version 1.093380'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -19,4 +19,4 @@ requires:
   URI: 0
 resources:
   repository: http://github.com/rjbs/cpan-uploader
-version: 0.093330
+version: 0.093390
