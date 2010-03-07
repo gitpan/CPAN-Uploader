@@ -1,28 +1,34 @@
 {
    "resources" : {
-      "repository" : "http://github.com/rjbs/cpan-uploader"
+      "repository" : "git://git.codesimply.com/CPAN-Uploader.git"
    },
    "meta-spec" : {
       "version" : 1.4,
       "url" : "http://module-build.sourceforge.net/META-spec-v1.4.html"
    },
-   "generated_by" : "Dist::Zilla version 1.093380",
-   "version" : "0.093390",
+   "generated_by" : "Dist::Zilla version 1.100660",
+   "version" : "0.100660",
    "name" : "CPAN-Uploader",
    "author" : [
       "Ricardo SIGNES <rjbs@cpan.org>"
    ],
    "license" : "perl",
+   "build_requires" : {},
    "requires" : {
-      "URI" : "0",
+      "File::Spec" : "0",
       "Data::Dumper" : "0",
       "HTTP::Status" : "0",
+      "Carp" : "0",
       "HTTP::Request::Common" : "0",
+      "Test::More" : "0",
       "LWP::UserAgent" : "0",
-      "File::Basename" : "0",
       "Getopt::Long::Descriptive" : "0",
+      "File::Basename" : "0",
       "Term::ReadKey" : "0"
    },
-   "abstract" : "upload things to the CPAN"
+   "abstract" : "upload things to the CPAN",
+   "configure_requires" : {
+      "ExtUtils::MakeMaker" : "6.11"
+   }
 }
 
