@@ -23,7 +23,7 @@ my %WriteMakefileArgs = (
                        'EXE_FILES' => [
                                         'bin/cpan-upload'
                                       ],
-                       'VERSION' => '0.100660',
+                       'VERSION' => '0.100750',
                        'PREREQ_PM' => {
                                         'File::Spec' => '0',
                                         'Data::Dumper' => '0',
@@ -32,7 +32,7 @@ my %WriteMakefileArgs = (
                                         'HTTP::Request::Common' => '0',
                                         'Test::More' => '0',
                                         'LWP::UserAgent' => '0',
-                                        'Getopt::Long::Descriptive' => '0',
+                                        'Getopt::Long::Descriptive' => '0.084',
                                         'File::Basename' => '0',
                                         'Term::ReadKey' => '0'
                                       },

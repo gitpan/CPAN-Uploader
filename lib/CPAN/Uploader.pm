@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package CPAN::Uploader;
-our $VERSION = '0.100660';
+our $VERSION = '0.100750';
 # ABSTRACT: upload things to the CPAN
 
 
@@ -87,16 +87,17 @@ sub _upload {
         "It used to be: ", $PAUSE_ADD_URI, "\n",
         "Please inform the maintainer of $self.\n";
     } else {
-      die "request failed\n  Error code: ", $response->code,
+      die "request failed with error code ", $response->code,
         "\n  Message: ", $response->message, "\n";
     }
   } else {
-    $self->log_debug(
+    $self->log_debug($_) for (
       "Looks OK!",
       "----- RESPONSE BEGIN -----",
       $response->as_string,
       "----- RESPONSE END -------"
     );
+
     $self->log("PAUSE add message sent ok [" . $response->code . "]");
   }
 }
@@ -134,7 +135,7 @@ CPAN::Uploader - upload things to the CPAN
 
 =head1 VERSION
 
-version 0.100660
+version 0.100750
 
 =head1 METHODS
 
