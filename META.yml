@@ -24,4 +24,4 @@ requires:
   Test::More: 0
 resources:
   repository: git://git.codesimply.com/CPAN-Uploader.git
-version: 0.100750
+version: 0.100760

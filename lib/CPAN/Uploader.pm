@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package CPAN::Uploader;
-our $VERSION = '0.100750';
+our $VERSION = '0.100760';
 # ABSTRACT: upload things to the CPAN
 
 
@@ -119,7 +119,7 @@ sub log {
 
 
 sub log_debug {
-  my ($self) = @_;
+  my $self = shift;
   return unless $self->{debug};
   $self->log($_[0]);
 }
@@ -135,7 +135,7 @@ CPAN::Uploader - upload things to the CPAN
 
 =head1 VERSION
 
-version 0.100750
+version 0.100760
 
 =head1 METHODS
 

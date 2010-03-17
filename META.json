@@ -7,7 +7,7 @@
       "url" : "http://module-build.sourceforge.net/META-spec-v1.4.html"
    },
    "generated_by" : "Dist::Zilla version 1.100730",
-   "version" : "0.100750",
+   "version" : "0.100760",
    "name" : "CPAN-Uploader",
    "author" : [
       "Ricardo SIGNES <rjbs@cpan.org>"

@@ -23,7 +23,7 @@ my %WriteMakefileArgs = (
                        'EXE_FILES' => [
                                         'bin/cpan-upload'
                                       ],
-                       'VERSION' => '0.100750',
+                       'VERSION' => '0.100760',
                        'PREREQ_PM' => {
                                         'File::Spec' => '0',
                                         'Data::Dumper' => '0',
