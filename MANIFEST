@@ -9,5 +9,4 @@ bin/cpan-upload
 dist.ini
 lib/CPAN/Uploader.pm
 t/00-load.t
-t/release-pod-coverage.t
 t/release-pod-syntax.t

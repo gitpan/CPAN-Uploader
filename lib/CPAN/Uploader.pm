@@ -1,11 +1,15 @@
 use strict;
 use warnings;
 package CPAN::Uploader;
-our $VERSION = '0.100760';
+BEGIN {
+  $CPAN::Uploader::VERSION = '0.101260';
+}
 # ABSTRACT: upload things to the CPAN
 
 
+use Carp ();
 use File::Basename ();
+use File::Spec;
 use HTTP::Request::Common qw(POST);
 use HTTP::Status;
 use LWP::UserAgent;
@@ -112,6 +116,34 @@ sub new {
 }
 
 
+sub read_config_file {
+  my ($class, $filename) = @_;
+
+  unless ($filename) {
+    my $home  = $ENV{HOME} || '.';
+    $filename = File::Spec->catfile($home, '.pause');
+
+    return {} unless -e $filename and -r _;
+  }
+
+  # Process .pause
+  open my $pauserc, '<', $filename
+    or die "can't open $filename for reading: $!";
+
+  my %from_file;
+  while (<$pauserc>) {
+    chomp;
+    next unless $_ and $_ !~ /^\s*#/;
+
+    my ($k, $v) = /^\s*(\w+)\s+(.+)$/;
+    Carp::croak "multiple enties for $k" if $from_file{$k};
+    $from_file{$k} = $v;
+  }
+  
+  return \%from_file;
+}
+
+
 sub log {
   shift;
   print "$_[0]\n"
@@ -135,7 +167,7 @@ CPAN::Uploader - upload things to the CPAN
 
 =head1 VERSION
 
-version 0.100760
+version 0.101260
 
 =head1 METHODS
 
@@ -164,6 +196,16 @@ This method returns a new uploader.  You probably don't need to worry about
 this method.
 
 Valid arguments are the same as those to C<upload_file>.
+
+=head2 read_config_file
+
+  my $config = CPAN::Uploader->read_config_file( $filename );
+
+This reads the config file and returns a hashref of its contents that can be
+used as configuration for CPAN::Uploader.
+
+If no filename is given, it looks for F<.pause> in the user's home directory
+(from the env var C<HOME>, or the current directory if C<HOME> isn't set).
 
 =head2 log
 

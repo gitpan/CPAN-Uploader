@@ -1,5 +1,11 @@
 Revision history for CPAN-Uploader
 
+0.101260  2010-05-06 22:48:37 America/New_York
+          move config file reading into CPAN::Uploader and out of the bin
+          better error message if no username is provided
+          no longer fails if ~/.pauserc is missing
+          eliminate spurious warnings
+
 0.100760  2010-03-17 12:14:52 America/New_York
           fix internal log_debug to not try logging $self (thanks, Chris
           Prather)
