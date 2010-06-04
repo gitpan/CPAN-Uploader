@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package CPAN::Uploader;
 BEGIN {
-  $CPAN::Uploader::VERSION = '0.101260';
+  $CPAN::Uploader::VERSION = '0.101550';
 }
 # ABSTRACT: upload things to the CPAN
 
@@ -42,6 +42,14 @@ sub upload_file {
   }
 }
 
+sub _ua_string {
+  my ($self) = @_;
+  my $class   = ref $self || $self;
+  my $version = $class->VERSION;
+
+  return "$class/$version";
+}
+
 sub _upload {
   my $self = shift;
   my $file = shift;
@@ -49,7 +57,7 @@ sub _upload {
   $self->log("registering upload with PAUSE web server");
 
   my $agent = LWP::UserAgent->new;
-  $agent->agent($self . q{/} . $self->VERSION);
+  $agent->agent( $self->_ua_string );
 
   $agent->proxy(http => $self->{http_proxy}) if $self->{http_proxy};
 
@@ -167,7 +175,7 @@ CPAN::Uploader - upload things to the CPAN
 
 =head1 VERSION
 
-version 0.101260
+version 0.101550
 
 =head1 METHODS
 

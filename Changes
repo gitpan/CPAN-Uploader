@@ -1,5 +1,8 @@
 Revision history for CPAN-Uploader
 
+0.101550  2010-06-04 00:00:50 America/New_York
+          minor tweak to the user-agent string sent
+
 0.101260  2010-05-06 22:48:37 America/New_York
           move config file reading into CPAN::Uploader and out of the bin
           better error message if no username is provided
