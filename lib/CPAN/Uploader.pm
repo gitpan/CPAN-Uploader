@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package CPAN::Uploader;
 BEGIN {
-  $CPAN::Uploader::VERSION = '0.101550';
+  $CPAN::Uploader::VERSION = '0.101670';
 }
 # ABSTRACT: upload things to the CPAN
 
@@ -77,10 +77,14 @@ sub _upload {
 
   $request->authorization_basic($self->{user}, $self->{password});
 
+  my $DEBUG_METHOD = $ENV{CPAN_UPLOADER_DISPLAY_HTTP_BODY}
+                   ? 'as_string'
+                   : 'headers_as_string';
+
   $self->log_debug(
-    "----- REQUEST BEGIN -----" .
-    $request->as_string .
-    "----- REQUEST END -------"
+    "----- REQUEST BEGIN -----\n" .
+    $request->$DEBUG_METHOD . "\n" .
+    "----- REQUEST END -------\n"
   );
 
   # Make the request to the PAUSE web server
@@ -105,9 +109,9 @@ sub _upload {
   } else {
     $self->log_debug($_) for (
       "Looks OK!",
-      "----- RESPONSE BEGIN -----",
-      $response->as_string,
-      "----- RESPONSE END -------"
+      "----- RESPONSE BEGIN -----\n" .
+      $response->$DEBUG_METHOD . "\n" .
+      "----- RESPONSE END -------\n"
     );
 
     $self->log("PAUSE add message sent ok [" . $response->code . "]");
@@ -175,7 +179,7 @@ CPAN::Uploader - upload things to the CPAN
 
 =head1 VERSION
 
-version 0.101550
+version 0.101670
 
 =head1 METHODS
 
@@ -242,7 +246,7 @@ into this module.
 
 =head1 AUTHOR
 
-  Ricardo SIGNES <rjbs@cpan.org>
+Ricardo SIGNES <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 

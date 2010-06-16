@@ -1,39 +1,13 @@
 #!perl
 use strict;
 use warnings;
+package
+  cpan_upload;
+# ABSTRACT: upload a distribution to the CPAN
 
 use CPAN::Uploader;
 use Getopt::Long::Descriptive 0.084;
 
-=head1 NAME
-
-cpan-upload - upload a distribution to the CPAN
-
-=head1 USAGE
-
-  usage: cpan-upload [options] file-to-upload
-    -v --verbose       enable verbose logging
-    -h --help          display this help message
-    --dry-run          do not actually upload anything
-                     
-    -u --user          your PAUSE username
-    -p --password      the password to your PAUSE account
-    -d --directory     a dir in your CPAN space in which to put the file
-    --http-proxy       URL of the http proxy to use in uploading
-
-=head1 CONFIGURATION
-
-If you have a C<.pause> file in your home directory, it will be checked for a
-username and password.  It should look like this:
-
-  user EXAMPLE
-  password your-secret-password
-
-=head1 SEE ALSO
-
-L<CPAN::Uploader>
-
-=cut
 
 my %arg;
 
@@ -99,3 +73,52 @@ CPAN::Uploader->upload_file(
   $file,
   \%arg,
 );
+
+__END__
+=pod
+
+=head1 NAME
+
+cpan_upload - upload a distribution to the CPAN
+
+=head1 VERSION
+
+version 0.101670
+
+=head1 USAGE
+
+  usage: cpan-upload [options] file-to-upload
+    -v --verbose       enable verbose logging
+    -h --help          display this help message
+    --dry-run          do not actually upload anything
+                     
+    -u --user          your PAUSE username
+    -p --password      the password to your PAUSE account
+    -d --directory     a dir in your CPAN space in which to put the file
+    --http-proxy       URL of the http proxy to use in uploading
+
+=head1 CONFIGURATION
+
+If you have a C<.pause> file in your home directory, it will be checked for a
+username and password.  It should look like this:
+
+  user EXAMPLE
+  password your-secret-password
+
+=head1 SEE ALSO
+
+L<CPAN::Uploader>
+
+=head1 AUTHOR
+
+Ricardo SIGNES <rjbs@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2010 by Ricardo SIGNES.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
+
