@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package CPAN::Uploader;
 BEGIN {
-  $CPAN::Uploader::VERSION = '0.101670';
+  $CPAN::Uploader::VERSION = '0.102150';
 }
 # ABSTRACT: upload things to the CPAN
 
@@ -59,6 +59,7 @@ sub _upload {
   my $agent = LWP::UserAgent->new;
   $agent->agent( $self->_ua_string );
 
+  $agent->env_proxy;
   $agent->proxy(http => $self->{http_proxy}) if $self->{http_proxy};
 
   my $request = POST(
@@ -179,7 +180,7 @@ CPAN::Uploader - upload things to the CPAN
 
 =head1 VERSION
 
-version 0.101670
+version 0.102150
 
 =head1 METHODS
 
