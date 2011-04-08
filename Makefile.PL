@@ -12,7 +12,7 @@ my %WriteMakefileArgs = (
   'ABSTRACT' => 'upload things to the CPAN',
   'AUTHOR' => 'Ricardo SIGNES <rjbs@cpan.org>',
   'BUILD_REQUIRES' => {
-    'Test::More' => '0'
+    'Test::More' => '0.96'
   },
   'CONFIGURE_REQUIRES' => {
     'ExtUtils::MakeMaker' => '6.31'
@@ -34,7 +34,7 @@ my %WriteMakefileArgs = (
     'LWP::UserAgent' => '0',
     'Term::ReadKey' => '0'
   },
-  'VERSION' => '0.102150',
+  'VERSION' => '0.103000',
   'test' => {
     'TESTS' => 't/*.t'
   }
