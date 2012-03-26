@@ -1,8 +1,8 @@
 use strict;
 use warnings;
 package CPAN::Uploader;
-BEGIN {
-  $CPAN::Uploader::VERSION = '0.103000';
+{
+  $CPAN::Uploader::VERSION = '0.103001';
 }
 # ABSTRACT: upload things to the CPAN
 
@@ -51,11 +51,14 @@ sub _ua_string {
   return "$class/$version";
 }
 
+sub uri { shift->{upload_uri} || $UPLOAD_URI }
+sub target { shift->{target} || 'PAUSE' }
+
 sub _upload {
   my $self = shift;
   my $file = shift;
 
-  $self->log("registering upload with PAUSE web server");
+  $self->log("registering upload with " . $self->target . " web server");
 
   my $agent = LWP::UserAgent->new;
   $agent->agent( $self->_ua_string );
@@ -92,7 +95,7 @@ sub _upload {
   );
 
   # Make the request to the PAUSE web server
-  $self->log("POSTing upload for $file");
+  $self->log("POSTing upload for $file to $uri");
   my $response = $agent->request($request);
 
   # So, how'd we do?
@@ -103,8 +106,8 @@ sub _upload {
   if ($response->is_error) {
     if ($response->code == RC_NOT_FOUND) {
       die "PAUSE's CGI for handling messages seems to have moved!\n",
-        "(HTTP response code of 404 from the PAUSE web server)\n",
-        "It used to be: ", $UPLOAD_URI, "\n",
+        "(HTTP response code of 404 from the ", $self->target, " web server)\n",
+        "It used to be: ", $uri, "\n",
         "Please inform the maintainer of $self.\n";
     } else {
       die "request failed with error code ", $response->code,
@@ -118,7 +121,7 @@ sub _upload {
       "----- RESPONSE END -------\n"
     );
 
-    $self->log("PAUSE add message sent ok [" . $response->code . "]");
+    $self->log($self->target . " add message sent ok [" . $response->code . "]");
   }
 }
 
@@ -183,7 +186,7 @@ CPAN::Uploader - upload things to the CPAN
 
 =head1 VERSION
 
-version 0.103000
+version 0.103001
 
 =head1 METHODS
 
@@ -250,7 +253,7 @@ Ricardo SIGNES <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2011 by Ricardo SIGNES.
+This software is copyright (c) 2012 by Ricardo SIGNES.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
