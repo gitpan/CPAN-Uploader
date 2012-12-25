@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package CPAN::Uploader;
 {
-  $CPAN::Uploader::VERSION = '0.103001';
+  $CPAN::Uploader::VERSION = '0.103002';
 }
 # ABSTRACT: upload things to the CPAN
 
@@ -178,6 +178,7 @@ sub log_debug {
 1;
 
 __END__
+
 =pod
 
 =head1 NAME
@@ -186,7 +187,7 @@ CPAN::Uploader - upload things to the CPAN
 
 =head1 VERSION
 
-version 0.103001
+version 0.103002
 
 =head1 METHODS
 
@@ -259,4 +260,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

@@ -12,6 +12,8 @@ my %WriteMakefileArgs = (
   "ABSTRACT" => "upload things to the CPAN",
   "AUTHOR" => "Ricardo SIGNES <rjbs\@cpan.org>",
   "BUILD_REQUIRES" => {
+    "File::Find" => 0,
+    "File::Temp" => 0,
     "Test::More" => "0.96"
   },
   "CONFIGURE_REQUIRES" => {
@@ -36,7 +38,7 @@ my %WriteMakefileArgs = (
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "0.103001",
+  "VERSION" => "0.103002",
   "test" => {
     "TESTS" => "t/*.t"
   }

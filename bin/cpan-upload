@@ -23,11 +23,11 @@ my ($opt, $usage) = describe_options(
 
   [ "verbose|v" => "enable verbose logging" ],
   [ "help|h"    => "display this help message" ],
-  [ "dry-run"   => "do not actually upload anything" ], 
+  [ "dry-run"   => "do not actually upload anything" ],
   [],
   [ "user|u=s"      => "your PAUSE username" ],
   [ "password|p=s"  => "the password to your PAUSE account" ],
-  [ "directory|d=s" => "a dir in your CPAN space in which to put the file" ],
+  [ "directory|d=s" => "a dir in your CPAN space in which to put the files" ],
   [ "http-proxy=s"  => "URL of the http proxy to use in uploading" ],
 );
 
@@ -36,7 +36,7 @@ if ($opt->help) {
   exit;
 }
 
-die "Please provide a file name.\n" . $usage unless my $file = $ARGV[0];
+die "Please provide at least one file name.\n" . $usage unless @ARGV;
 
 $arg{user} = $opt->_specified('user') ? $opt->user : $from_file->{user};
 
@@ -69,12 +69,15 @@ if (! $arg{password}) {
   print "\n";
 }
 
-CPAN::Uploader->upload_file(
-  $file,
-  \%arg,
-);
+foreach my $file (@ARGV) {
+  CPAN::Uploader->upload_file(
+    $file,
+    \%arg,
+  );
+}
 
 __END__
+
 =pod
 
 =head1 NAME
@@ -83,11 +86,11 @@ cpan_upload - upload a distribution to the CPAN
 
 =head1 VERSION
 
-version 0.103001
+version 0.103002
 
 =head1 USAGE
 
-  usage: cpan-upload [options] file-to-upload
+  usage: cpan-upload [options] file-to-upload-1 [ file-to-upload-2 ... ]
     -v --verbose       enable verbose logging
     -h --help          display this help message
     --dry-run          do not actually upload anything
@@ -121,4 +124,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
