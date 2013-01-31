@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package CPAN::Uploader;
 {
-  $CPAN::Uploader::VERSION = '0.103002';
+  $CPAN::Uploader::VERSION = '0.103003'; # TRIAL
 }
 # ABSTRACT: upload things to the CPAN
 
@@ -13,9 +13,10 @@ use File::Spec;
 use HTTP::Request::Common qw(POST);
 use HTTP::Status;
 use LWP::UserAgent;
+use File::HomeDir;
 
 my $UPLOAD_URI = $ENV{CPAN_UPLOADER_UPLOAD_URI}
-              || 'http://pause.perl.org/pause/authenquery';
+              || 'https://pause.perl.org/pause/authenquery';
 
 
 use Data::Dumper;
@@ -46,7 +47,7 @@ sub upload_file {
 sub _ua_string {
   my ($self) = @_;
   my $class   = ref $self || $self;
-  my $version = $class->VERSION;
+  my $version = defined $class->VERSION ? $class->VERSION : 'dev';
 
   return "$class/$version";
 }
@@ -139,7 +140,7 @@ sub read_config_file {
   my ($class, $filename) = @_;
 
   unless ($filename) {
-    my $home  = $ENV{HOME} || '.';
+    my $home  = File::HomeDir->my_home || '.';
     $filename = File::Spec->catfile($home, '.pause');
 
     return {} unless -e $filename and -r _;
@@ -187,7 +188,7 @@ CPAN::Uploader - upload things to the CPAN
 
 =head1 VERSION
 
-version 0.103002
+version 0.103003
 
 =head1 METHODS
 
@@ -228,6 +229,8 @@ used as configuration for CPAN::Uploader.
 If no filename is given, it looks for F<.pause> in the user's home directory
 (from the env var C<HOME>, or the current directory if C<HOME> isn't set).
 
+See L<cpan_upload/CONFIGURATION> for the config format.
+
 =head2 log
 
   $uploader->log($message);
@@ -254,7 +257,7 @@ Ricardo SIGNES <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Ricardo SIGNES.
+This software is copyright (c) 2013 by Ricardo SIGNES.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

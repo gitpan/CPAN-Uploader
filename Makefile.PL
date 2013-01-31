@@ -29,16 +29,18 @@ my %WriteMakefileArgs = (
     "Carp" => 0,
     "Data::Dumper" => 0,
     "File::Basename" => 0,
+    "File::HomeDir" => 0,
     "File::Spec" => 0,
     "Getopt::Long::Descriptive" => "0.084",
     "HTTP::Request::Common" => 0,
     "HTTP::Status" => 0,
+    "LWP::Protocol::https" => 1,
     "LWP::UserAgent" => 0,
     "Term::ReadKey" => 0,
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "0.103002",
+  "VERSION" => "0.103003",
   "test" => {
     "TESTS" => "t/*.t"
   }
