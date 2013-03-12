@@ -86,7 +86,7 @@ cpan_upload - upload a distribution to the CPAN
 
 =head1 VERSION
 
-version 0.103003
+version 0.103004
 
 =head1 USAGE
 
