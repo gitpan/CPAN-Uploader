@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package CPAN::Uploader;
 {
-  $CPAN::Uploader::VERSION = '0.103004';
+  $CPAN::Uploader::VERSION = '0.103005'; # TRIAL
 }
 # ABSTRACT: upload things to the CPAN
 
@@ -19,7 +19,6 @@ my $UPLOAD_URI = $ENV{CPAN_UPLOADER_UPLOAD_URI}
               || 'https://pause.perl.org/pause/authenquery';
 
 
-use Data::Dumper;
 sub upload_file {
   my ($self, $file, $arg) = @_;
 
@@ -33,11 +32,12 @@ sub upload_file {
   $self = $self->new($arg) if $arg;
 
   if ($arg->{dry_run}) {
+    require Data::Dumper;
     $self->log("By request, cowardly refusing to do anything at all.");
     $self->log(
       "The following arguments would have been used to upload: \n"
-      . '$self: ' . Dumper($self)
-      . '$file: ' . Dumper($file)
+      . '$self: ' . Data::Dumper::Dumper($self)
+      . '$file: ' . Data::Dumper::Dumper($file)
     );
   } else {
     $self->_upload($file);
@@ -146,21 +146,26 @@ sub read_config_file {
     return {} unless -e $filename and -r _;
   }
 
-  # Process .pause
-  open my $pauserc, '<', $filename
-    or die "can't open $filename for reading: $!";
+  my %conf;
+  if ( eval { require Config::Identity } ) {
+    %conf = Config::Identity->load($filename);
+    $conf{user} = delete $conf{username} unless $conf{user};
+  }
+  else { # Process .pause manually
+    open my $pauserc, '<', $filename
+      or die "can't open $filename for reading: $!";
 
-  my %from_file;
-  while (<$pauserc>) {
-    chomp;
-    next unless $_ and $_ !~ /^\s*#/;
+    while (<$pauserc>) {
+      chomp;
+      next unless $_ and $_ !~ /^\s*#/;
 
-    my ($k, $v) = /^\s*(\w+)\s+(.+)$/;
-    Carp::croak "multiple enties for $k" if $from_file{$k};
-    $from_file{$k} = $v;
+      my ($k, $v) = /^\s*(\w+)\s+(.+)$/;
+      Carp::croak "multiple enties for $k" if $conf{$k};
+      $conf{$k} = $v;
+    }
   }
 
-  return \%from_file;
+  return \%conf;
 }
 
 
@@ -188,7 +193,7 @@ CPAN::Uploader - upload things to the CPAN
 
 =head1 VERSION
 
-version 0.103004
+version 0.103005
 
 =head1 METHODS
 

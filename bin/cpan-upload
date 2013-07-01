@@ -86,7 +86,7 @@ cpan_upload - upload a distribution to the CPAN
 
 =head1 VERSION
 
-version 0.103004
+version 0.103005
 
 =head1 USAGE
 
@@ -108,9 +108,23 @@ username and password.  It should look like this:
   user EXAMPLE
   password your-secret-password
 
+You can GnuPG-encrypt this file if you wish:
+
+    # Follow the prompts, setting your key as the "recipient"
+    # Use ^D once you've finished typing out your authentication information
+    gpg -ea > $HOME/.pause
+    # OR, encrypt a file you already created:
+    gpg -ea $HOME/.pause && mv $HOME/.pause{.asc,}
+
 =head1 SEE ALSO
 
-L<CPAN::Uploader>
+=over 4
+
+=item L<CPAN::Uploader>
+
+=item L<Config::Identity>
+
+=back
 
 =head1 AUTHOR
 
