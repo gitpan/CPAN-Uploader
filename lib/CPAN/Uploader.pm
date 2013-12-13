@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package CPAN::Uploader;
 {
-  $CPAN::Uploader::VERSION = '0.103005'; # TRIAL
+  $CPAN::Uploader::VERSION = '0.103006';
 }
 # ABSTRACT: upload things to the CPAN
 
@@ -187,13 +187,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 CPAN::Uploader - upload things to the CPAN
 
 =head1 VERSION
 
-version 0.103005
+version 0.103006
 
 =head1 METHODS
 

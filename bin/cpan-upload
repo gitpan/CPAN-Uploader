@@ -3,6 +3,7 @@ use strict;
 use warnings;
 package
   cpan_upload;
+# PODNAME: cpan-upload
 # ABSTRACT: upload a distribution to the CPAN
 
 use CPAN::Uploader;
@@ -80,13 +81,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
-cpan_upload - upload a distribution to the CPAN
+cpan-upload - upload a distribution to the CPAN
 
 =head1 VERSION
 
-version 0.103005
+version 0.103006
 
 =head1 USAGE
 
