@@ -1,11 +1,16 @@
 use strict;
 use warnings;
 package CPAN::Uploader;
-{
-  $CPAN::Uploader::VERSION = '0.103006';
-}
 # ABSTRACT: upload things to the CPAN
-
+$CPAN::Uploader::VERSION = '0.103007';
+#pod =head1 ORIGIN
+#pod
+#pod This code is mostly derived from C<cpan-upload-http> by Brad Fitzpatrick, which
+#pod in turn was based on C<cpan-upload> by Neil Bowers.  I (I<rjbs>) didn't want to
+#pod have to use a C<system> call to run either of those, so I refactored the code
+#pod into this module.
+#pod
+#pod =cut
 
 use Carp ();
 use File::Basename ();
@@ -18,6 +23,25 @@ use File::HomeDir;
 my $UPLOAD_URI = $ENV{CPAN_UPLOADER_UPLOAD_URI}
               || 'https://pause.perl.org/pause/authenquery';
 
+#pod =method upload_file
+#pod
+#pod   CPAN::Uploader->upload_file($file, \%arg);
+#pod
+#pod   $uploader->upload_file($file);
+#pod
+#pod Valid arguments are:
+#pod
+#pod   user       - (required) your CPAN / PAUSE id
+#pod   password   - (required) your CPAN / PAUSE password
+#pod   subdir     - the directory (under your home directory) to upload to
+#pod   http_proxy - uri of the http proxy to use
+#pod   upload_uri - uri of the upload handler; usually the default (PAUSE) is right
+#pod   debug      - if set to true, spew lots more debugging output
+#pod
+#pod This method attempts to actually upload the named file to the CPAN.  It will
+#pod raise an exception on error.
+#pod
+#pod =cut
 
 sub upload_file {
   my ($self, $file, $arg) = @_;
@@ -127,6 +151,16 @@ sub _upload {
 }
 
 
+#pod =method new
+#pod
+#pod   my $uploader = CPAN::Uploader->new(\%arg);
+#pod
+#pod This method returns a new uploader.  You probably don't need to worry about
+#pod this method.
+#pod
+#pod Valid arguments are the same as those to C<upload_file>.
+#pod
+#pod =cut
 
 sub new {
   my ($class, $arg) = @_;
@@ -135,11 +169,24 @@ sub new {
   bless $arg => $class;
 }
 
+#pod =method read_config_file
+#pod
+#pod   my $config = CPAN::Uploader->read_config_file( $filename );
+#pod
+#pod This reads the config file and returns a hashref of its contents that can be
+#pod used as configuration for CPAN::Uploader.
+#pod
+#pod If no filename is given, it looks for F<.pause> in the user's home directory
+#pod (from the env var C<HOME>, or the current directory if C<HOME> isn't set).
+#pod
+#pod See L<cpan_upload/CONFIGURATION> for the config format.
+#pod
+#pod =cut
 
 sub read_config_file {
   my ($class, $filename) = @_;
 
-  unless ($filename) {
+  unless (defined $filename) {
     my $home  = File::HomeDir->my_home || '.';
     $filename = File::Spec->catfile($home, '.pause');
 
@@ -168,12 +215,27 @@ sub read_config_file {
   return \%conf;
 }
 
+#pod =method log
+#pod
+#pod   $uploader->log($message);
+#pod
+#pod This method logs the given string.  The default behavior is to print it to the
+#pod screen.  The message should not end in a newline, as one will be added as
+#pod needed.
+#pod
+#pod =cut
 
 sub log {
   shift;
   print "$_[0]\n"
 }
 
+#pod =method log_debug
+#pod
+#pod This method behaves like C<L</log>>, but only logs the message if the
+#pod CPAN::Uploader is in debug mode.
+#pod
+#pod =cut
 
 sub log_debug {
   my $self = shift;
@@ -195,7 +257,7 @@ CPAN::Uploader - upload things to the CPAN
 
 =head1 VERSION
 
-version 0.103006
+version 0.103007
 
 =head1 METHODS
 
@@ -264,7 +326,7 @@ Ricardo SIGNES <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Ricardo SIGNES.
+This software is copyright (c) 2014 by Ricardo SIGNES.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

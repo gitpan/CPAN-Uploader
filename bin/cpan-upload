@@ -9,10 +9,47 @@ package
 use CPAN::Uploader;
 use Getopt::Long::Descriptive 0.084;
 
+#pod =head1 USAGE
+#pod
+#pod   usage: cpan-upload [options] file-to-upload-1 [ file-to-upload-2 ... ]
+#pod     -v --verbose       enable verbose logging
+#pod     -h --help          display this help message
+#pod     --dry-run          do not actually upload anything
+#pod                      
+#pod     -u --user          your PAUSE username
+#pod     -p --password      the password to your PAUSE account
+#pod     -d --directory     a dir in your CPAN space in which to put the file
+#pod     --http-proxy       URL of the http proxy to use in uploading
+#pod
+#pod =head1 CONFIGURATION
+#pod
+#pod If you have a C<.pause> file in your home directory, it will be checked for a
+#pod username and password.  It should look like this:
+#pod
+#pod   user EXAMPLE
+#pod   password your-secret-password
+#pod
+#pod You can GnuPG-encrypt this file if you wish:
+#pod
+#pod     # Follow the prompts, setting your key as the "recipient"
+#pod     # Use ^D once you've finished typing out your authentication information
+#pod     gpg -ea > $HOME/.pause
+#pod     # OR, encrypt a file you already created:
+#pod     gpg -ea $HOME/.pause && mv $HOME/.pause{.asc,}
+#pod
+#pod =head1 SEE ALSO
+#pod
+#pod =over 4
+#pod
+#pod =item L<CPAN::Uploader>
+#pod
+#pod =item L<Config::Identity>
+#pod
+#pod =back
+#pod
+#pod =cut
 
 my %arg;
-
-my $from_file = CPAN::Uploader->read_config_file;
 
 # This nonsensical hack is to cope with Module::Install wanting to call
 # cpan-upload -verbose; it should be made to use CPAN::Uploader instead.
@@ -30,12 +67,15 @@ my ($opt, $usage) = describe_options(
   [ "password|p=s"  => "the password to your PAUSE account" ],
   [ "directory|d=s" => "a dir in your CPAN space in which to put the files" ],
   [ "http-proxy=s"  => "URL of the http proxy to use in uploading" ],
+  [ "config|c=s"    => "config file to use; defaults to ~/.pause" ],
 );
 
 if ($opt->help) {
   print $usage->text;
   exit;
 }
+
+my $from_file = CPAN::Uploader->read_config_file($opt->config);
 
 die "Please provide at least one file name.\n" . $usage unless @ARGV;
 
@@ -89,7 +129,7 @@ cpan-upload - upload a distribution to the CPAN
 
 =head1 VERSION
 
-version 0.103006
+version 0.103007
 
 =head1 USAGE
 
@@ -135,7 +175,7 @@ Ricardo SIGNES <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Ricardo SIGNES.
+This software is copyright (c) 2014 by Ricardo SIGNES.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
